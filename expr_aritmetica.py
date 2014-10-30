@@ -1,13 +1,21 @@
 import string
 
-class ExprArtimetica:
+class ExprAritmetica:
+
+	def __es_numero__(self,cadena):
+		try:
+			string.atoi(cadena)
+			return True
+		except ValueError:
+			return False
+
 	def parse(self, exp):
 		operandos = []
 		operadores = []
 		tokens = string.split(exp)
 		for token in tokens:
-			try:
+			if self.__es_numero__(token):
 				operandos.append(string.atoi(token))
-			except ValueError:
+			else:
 				operadores.append(token)
 		return {'Operandos' : operandos, 'Operadores' : operadores}
