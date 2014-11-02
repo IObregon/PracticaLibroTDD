@@ -46,3 +46,11 @@ class TestCalculadora(unittest.TestCase):
 
 	def test_dividir_por_0(self):
 		self.failUnlessRaises(ZeroDivisionError, self.calc.dividir, 3,0)
+
+	def test_multiplicar_simple(self):
+		self.failUnlessEqual(8, self.calc.multiplicar(4, 2))
+
+	def test_multiplicar_negativa(self):
+		self.failUnlessEqual(-8, self.calc.multiplicar(-4, 2))
+		self.failUnlessEqual(-8, self.calc.multiplicar(4, -2))
+		self.failUnlessEqual(8, self.calc.multiplicar(-4, -2))

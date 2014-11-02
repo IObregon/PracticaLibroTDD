@@ -2,14 +2,20 @@ import expr_aritmetica
 import calculadora
 
 class Supercalculadora:
-	def __init__(self, parser):
+	def __init__(self, parser, validador):
 		self.calc = calculadora.Calculadora()
 		self.parser = parser
+		self.validador = validador
 
 	def __operar__(self, expr_decompuesta):
 		i = None
 		res_intermedio = 0
-		if '/' in expr_decompuesta['Operadores']:
+		if '*' in expr_decompuesta['Operadores']:
+			i = expr_decompuesta['Operadores'].index('*')
+			res_intermedio = self.calc.multiplicar(
+				expr_decompuesta['Operandos'][i],
+				expr_decompuesta['Operandos'][i + 1])
+		elif '/' in expr_decompuesta['Operadores']:
 			i = expr_decompuesta['Operadores'].index('/')
 			res_intermedio = self.calc.dividir(
 				expr_decompuesta['Operandos'][i],
@@ -44,4 +50,8 @@ class Supercalculadora:
 		return self.__simplificar__(expr_simplificada)
 
 	def calcular(self, expresion):
-		return str(self.__simplificar__(self.parser.parse(expresion))['Operandos'][0])
+		if not self.validador.validar(expresion):
+			raise SyntaxError("La expresion no es valida")
+
+		return str(self.__simplificar__(
+			self.parser.parse(expresion))['Operandos'][0])
